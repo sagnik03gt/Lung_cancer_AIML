@@ -7,11 +7,12 @@ from sklearn.ensemble import RandomForestClassifier
 
 dataset = pd.read_csv('survey_lung_cancer.csv')
 
+
 X = dataset.drop(['AGE','GENDER','SHORTNESS OF BREATH','SMOKING','LUNG_CANCER'],axis=1)
 y = dataset['LUNG_CANCER']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.1, random_state=0)
 
-RF = RandomForestClassifier(n_estimators=100, random_state=42)
+RF = RandomForestClassifier(n_estimators=500, random_state=42)
 RF.fit(X, y)
 predictions = RF.predict(X_test)
 val2 = (accuracy_score(y_test, predictions)*100)
@@ -29,3 +30,7 @@ print("Accuracy :",rf_result)
 recall_rf = cm[0][0]/(cm[0][0] + cm[0][1])
 precision_rf = cm[0][0]/(cm[0][0]+cm[1][1])
 recall_rf,precision_rf
+
+new_data = pd.DataFrame(pd.read_csv("testdata.csv"))
+new_predictions = RF.predict(new_data)
+print(f"prediction : {new_predictions}")
